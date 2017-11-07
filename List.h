@@ -12,10 +12,9 @@ struct _List {
     char* str;
 };
 
-
-
 List* List_initialize();
-void List_add_node (char* _str, List* _lists);
+void List_add_node (List* _lists);
+void List_set_str(char* _str, List* _lists);
 void List_free_all_lists(List* lists);
 
 #endif //INC_LIST_H

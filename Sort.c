@@ -9,7 +9,6 @@ int compare_strings(const void *a, const void *b) {
 	return strcmp((char*) a, (char*)b);
 }
 
-
 int main_hoge(void) {
 
 	char input_strings[NUM_STRINGS][NUM_CHARACTERS + 1];//文字列＋終端文字

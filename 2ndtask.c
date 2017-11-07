@@ -1,8 +1,8 @@
 
 /*
  *
- * コンソールから入力された文字列をソートし、結果をファイルに出力するプログラム 
- * 
+ * コンソールから入力された文字列をソートし、結果をファイルに出力するプログラム
+ *
  */
 #include "2ndtask.h"
 #include "List.h"
@@ -14,7 +14,7 @@ int main(int args, char* argv[]) {
     List* lists = List_initialize();
 
 	printf("address: %p\n", lists);
-	
+
     List_add_node("hoge", lists);
     List_add_node("fuga", lists);
 
