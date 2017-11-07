@@ -1,0 +1,53 @@
+//
+// Created by HirokiTachiyama on 2017/11/03.
+//
+
+#include "List.h"
+
+
+#include <stdlib.h>
+#include <string.h>
+
+
+
+//Listの初期化
+//先頭ノードは文字列格納には使用しない。
+List* List_initialize() {
+    List* top_node = (List*)malloc(sizeof(List*));
+    top_node->next_node = NULL;
+    top_node->str = NULL;
+    return  top_node;
+}
+
+
+//引数のListの最後のノードの後ろに新たに生成したノードを繋げる
+//新たに生成したノードのstrに、引数で指定した文字列をコピーする
+void List_add_node (char* _str, List* _lists) {
+
+    List* tmp_node = NULL;
+    List* last_node = NULL;
+
+    //listsの次ののー
+    tmp_node = _lists->next_node;
+    while(tmp_node != NULL){
+        tmp_node = tmp_node->next_node;
+    }
+    last_node = tmp_node;
+
+    List* new_node = (List*)malloc(sizeof(List*));
+    last_node->next_node = new_node;
+    new_node->next_node = NULL;
+    strcpy(new_node->str, _str);
+}
+
+//Listのメモリ解放 プログラム終了前に呼び出すこと(もしくは忘れずfreeすること)
+void List_free_all_lists(List* lists) {
+
+    List* current_node = lists;
+    while(current_node != NULL) {
+        current_node = current_node->next_node;
+        free(current_node);
+    }
+
+}
+
