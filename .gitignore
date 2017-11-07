@@ -1,0 +1,5 @@
+#ignore files from git manage
+
+.DS_Store
+*.o
+

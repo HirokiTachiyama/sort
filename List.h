@@ -1,7 +1,3 @@
-//
-// Created by HirokiTachiyama on 2017/11/03.
-//
-
 
 #ifndef INC_LIST_H
 #define INC_LIST_H
