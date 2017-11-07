@@ -12,6 +12,8 @@ struct _List {
     char* str;
 };
 
+#define NUM_CHARACTERS 20 //文字列の最大byte数(改行文字と終端文字含まず)
+
 List* List_initialize();
 void List_add_node (List* _lists);
 void List_set_str(char* _str, List* _lists);

@@ -4,6 +4,7 @@
 #include "List.h"
 
 
+
 //Listの初期化
 //先頭ノードは文字列格納には使用しない。
 List* List_initialize() {
@@ -39,9 +40,11 @@ void List_add_node (List* _lists) {
 }
 
 void List_set_str(char* _str, List* _lists) {
-	printf("New List was added3.\n");
-    //strcpy(new_node->str, _str);
-	printf("New List was added3.\n");
+
+  printf("%d\n", NUM_CHARACTERS);
+  printf("New List was added3.\n");
+  //strcpy(new_node->str, _str);
+  printf("New List was added3.\n");
   
 }
 
