@@ -8,7 +8,7 @@
 //Listの初期化
 //先頭ノードは文字列格納には使用しない。
 List* List_initialize() {
-    List* top_node = (List*)malloc(sizeof(List*));
+    List* top_node = (List*)malloc(sizeof(List));
     top_node->next_node = NULL;
     top_node->str = NULL;
 	return top_node;
@@ -16,30 +16,14 @@ List* List_initialize() {
 
 
 //引数のListの最後のノードの後ろに新たに生成したノードを繋げる
-void List_add_node (List* _lists) {
+void List_add_new_node (List* _lists) {
+  List* last_node = List_get_last_node(_lists);
+  List* new_node = (List*)malloc(sizeof(List));
 
-    List* tmp_node = NULL;
-    List* last_node = NULL;
-
-    //listsの次ののー
-    tmp_node = _lists->next_node;
-    while(tmp_node != NULL){
-	  tmp_node = tmp_node->next_node;
-	  if(tmp_node->next_node == NULL) {
-		last_node->next_node = tmp_node;
-	  }
-    }
-    last_node = tmp_node;
-	printf("New List was added.\n");
-
-    List* new_node = (List*)malloc(sizeof(List));
-	printf("%lu\n", sizeof(new_node));
-	last_node->next_node = new_node;
-    new_node->next_node = NULL;
-
+  last_node->next_node = new_node;
 }
 
-void List_set_str(char* _str, List* _lists) {
+void List_set_string_to_last_node(List* _lists, char* _str) {
 
   printf("%d\n", NUM_CHARACTERS);
   printf("New List was added3.\n");
@@ -48,7 +32,33 @@ void List_set_str(char* _str, List* _lists) {
   
 }
 
+int List_get_size(List* lists) {
+  int size = 0;
+  List* tmp = lists;
 
+  while(tmp != NULL) {
+	tmp = lists->next_node;
+	size++;
+  }
+
+  return size;
+}
+
+List* List_get_last_node(List* lists) {
+  List* current_node = lists;
+  List* next_node = lists->next_node;
+  if (next_node == NULL) {
+	return current_node;
+  }
+
+  while(1) {
+	current_node = next_node;
+	next_node = next_node->next_node;
+	if(next_node == NULL) {
+	  return current_node;
+	}
+  }
+}
 
 //Listのメモリ解放 プログラム終了前に呼び出すこと(もしくは忘れずfreeすること)
 void List_free_all_lists(List* lists) {
