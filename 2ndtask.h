@@ -1,12 +1,14 @@
 
-#ifndef INC_2ND_TASK_H
-#define INC_2ND_TASK_H
+#ifndef INC_2ND_TASK
+#define INC_2ND_TASK
 
-#include "Sort.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <locale.h>
+
 #include "List.h"
-
-#include <stdio.h>
-#include <stdio.h>
+#include "Sort.h"
 
 
-#endif //INC_2ND_TASK_H
+#endif

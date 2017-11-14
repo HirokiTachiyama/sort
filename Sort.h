@@ -2,10 +2,10 @@
 #ifndef INC_SORT_H
 #define INC_SORT_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "List.h"
+
+int Sort_compare_strings(const void*, const void*);
+void Sort_sort(char strings[][NUM_CHARACTERS_OF_STRING + 1], int i);
 
 
 #endif //INC_SORT_H

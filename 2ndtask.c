@@ -1,104 +1,93 @@
 
-/*
- *
- * コンソールから入力された文字列をソートし、結果をファイルに出力するプログラム
- *
- */
+
 #include "2ndtask.h"
-#include "List.h"
 
+int main(int argc, char* argv[]) {
 
-int main(int args, char* argv[]) {
-
-    printf("%d, %s, %s\n", args, argv[0], argv[1]);
-
-    List* lists = List_initialize();
-
-	printf("address: %p\n", lists);
-
-    List_add_node("hoge", lists);
-    List_add_node("fuga", lists);
-
-	
-	int i=0, j=0;
-	while (1) { //改行文字のみの入力を受けるまでループ
-		j = 0;
-		printf("%d個目の文字列を入力して下さい。： ", i + 1);
-		fgets(tmp_string, NUM_CHARACTERS + 1, stdin); //fgetsの第二引数は最大入力byte数 + 1(終端文字分)
-		if(strcmp(tmp_string, "\n") == 0) { //改行文字のみの場合入力終了
-			break;
+  List* top_node;
+  char tmp_string[NUM_CHARACTERS_OF_STRING + 1];
+  int i;
+  int input_times;
+	bool top_node_is_unused;
+	FILE* fp;
+	if(argc == 1) {
+		fprintf(stderr, "ファイル名が入力されていません。\n");
+		exit(1);
+	} else {
+		printf("Output file name is %s\n", argv[1]);
+		if( (fp = fopen(argv[1], "a")) == NULL) {
+			printf("出力ファイルを開けませんでした。");
+			exit(1);
 		}
+	}
 
-		for(j = 0; j < NUM_CHARACTERS; j++) { //改行文字の除去
-			if(tmp_string[j] == '\n') {
-			  tmp_string[j] = '\0';
-			  break;
+  top_node = List_initialize_new_node();
+  top_node_is_unused = true;
+  input_times = 0;
+  while (1) { //改行文字のみが入力されるまでループ
+		input_times++;
+		printf("%d個目の文字列を入力して下さい。： ", input_times);
+		fgets(tmp_string, NUM_CHARACTERS_OF_STRING + 1, stdin); //第二引数は最大入力byte数 + 1(終端文字分)	
+
+		if(strcmp(tmp_string, "\n") == 0) { //入力終了(改行文字のみ入力された)		
+		  break;
+		} else { //入力有、リストへの入力文字の格納
+
+		  if(top_node_is_unused) {
+				//初回の文字列格納時はtop_nodeへ行うため、新規ノード追加は行わない
+					top_node_is_unused = false; //次回以降の格納時にはelse節を実行
+	  	} else {
+				List_add_new_node(top_node); //新規ノードの追加
+	  	}
+
+			//マルチバイト判定
+			i = 0;
+			while(tmp_string[i] != '\0') {				
+				if(tmp_string[i] & 0x80) {
+					fprintf(stderr, "半角英数字以外が入力されたため、プログラムを終了します。\n");
+					List_free_all_nodes(top_node);
+					fclose(fp);
+					exit(1);
+				}				
+				i++;
 			}
+
+			//改行文字の除去
+		  for(i = 0; i < NUM_CHARACTERS_OF_STRING; i++) {
+				if(tmp_string[i] == '\n') {
+				  tmp_string[i] = '\0';
+			  	break;
+				}
+	  	}
+
+			//最大byteまで入力された場合、標準入力に残った'\n'を吐き出す
+		  if(strlen(tmp_string) == NUM_CHARACTERS_OF_STRING) {
+				getchar();
+	  	}
+
+			//ノードの追加、文字列の格納
+	 		List* last_node = List_get_last_node(top_node);
+	  	strcpy(last_node->string, tmp_string);
 		}
-		if(strlen(tmp_string) == NUM_CHARACTERS) { //最大byteまで入力された場合、標準入力に残った'\n'を吐き出す
-		  getchar();
-		}
-		strcpy(input_strings[i], tmp_string);
-		i++;
-	}
-	printf("\n");
+  }
 
+  List* tmp_node = top_node;
+  int num_strings = List_get_size(top_node);
 
-    return 0;
-}
+	char strings[num_strings][NUM_CHARACTERS_OF_STRING + 1];
+  for(i = 0; i < num_strings; i++) {
+		strcpy(strings[i], tmp_node->string);
+		tmp_node = tmp_node->next_node;
+  }
 
+  Sort_sort(strings, num_strings);
 
-
-/*
-
-//文字列をASCIIで比較し、-1, 0, 1を返す。小さい順にソート。
-int compare_strings(const void *a, const void *b) {
-	return strcmp((char*) a, (char*)b);
-}
-
-List* main_hoge(List* lists) {
-
-	char input_strings[NUM_STRINGS][NUM_CHARACTERS + 1];//文字列＋終端文字
-	char tmp_string[NUM_CHARACTERS + 1];//文字列＋終端文字
-	int i;
-	int j;
-
-	i = 0;
-	while (i < 10) { //文字列が10個入力されたら終了
-		j = 0;
-		printf("%d個目の文字列を入力して下さい。： ", i + 1);
-		fgets(tmp_string, NUM_CHARACTERS + 1, stdin); //fgetsの第二引数は最大入力byte数 + 1(終端文字分)
-		if(strcmp(tmp_string, "\n") == 0) { //改行文字のみの場合入力終了
-			break;
-		}
-
-		for(j = 0; j < NUM_CHARACTERS; j++) { //改行文字の除去
-			if(tmp_string[j] == '\n') {
-			  tmp_string[j] = '\0';
-			  break;
-			}
-		}
-		if(strlen(tmp_string) == NUM_CHARACTERS) { //最大byteまで入力された場合、標準入力に残った'\n'を吐き出す
-		  getchar();
-		}
-		strcpy(input_strings[i], tmp_string);
-		i++;
-	}
-	printf("\n");
-
-	//stdlib.h ライブラリ関数 qsort
-	//void qsort(void *base, size_t num, size_t size, int (*compare)(const void*, const void*))
-	//引数：ソート対象(配列), 要素数, 要素のサイズ, ソートに使用する関数
-	//qsort(input_strings, NUM_STRINGS, NUM_CHARACTERS, compare_strings);
-	//要素数は、入力された文字列の数であるiとする
-	qsort(input_strings, i, NUM_CHARACTERS + 1, compare_strings);
-
-	printf("ソート結果\n");
-	for(j = 0; j < i; j++) {
-		printf("%d:%s\n", j + 1, input_strings[j]);
+	for(i=0; i<num_strings; i++) {
+		fputs(strings[i], fp);
+		fputs("\n", fp);
 	}
 
-	return 0;
+	fclose(fp);
+  List_free_all_nodes(top_node);
+  return 0;
 }
-
-*/

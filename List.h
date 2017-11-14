@@ -1,4 +1,3 @@
-
 #ifndef INC_LIST_H
 #define INC_LIST_H
 
@@ -6,18 +5,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define NUM_CHARACTERS_OF_STRING 20 //文字+終端文字(改行は含まない)
+
 typedef struct _List {
-    struct _List* next_node;
-    char* str;
+  struct _List* next_node;
+  char* string;
 } List;
+List* List_initialize_new_node();
+void  List_add_new_node(List*);
+void  List_set_string_to_last_node(List* , char*);
+int   List_get_size(List*);
+List* List_get_last_node(List*);
+void  List_free_all_nodes(List*);
+void List_print_all_strings(List*);
 
-#define NUM_CHARACTERS 20 //文字列の最大byte数(改行文字と終端文字含まず)
+#endif
 
-List* List_initialize();
-void List_add_new_node (List* _lists);
-void List_set_string_to_last_node(List* _lists, char* _str);
-void List_free_all_lists(List* lists);
-int  List_get_size(List* lists);
-List* List_get_last_node(List* lists);
 
-#endif //INC_LIST_H
