@@ -1,6 +1,5 @@
 
-
-#include "2ndtask.h"
+#include "kadai2-1.h"
 
 int main(int argc, char* argv[]) {
 

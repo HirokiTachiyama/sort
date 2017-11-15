@@ -1,13 +1,17 @@
 
 #include "List.h"
 
+/*
+ * List.c 
+ * 第二回事前研修 リストAPI
+ * 
+ * ・プログラム開始時にList_initialize_new_nodeで
+ *
+ */
 
-void  List_add_new_node(List* _list) {
-  List* new_node = List_initialize_new_node();
-  List* last_node = List_get_last_node(_list);
-  last_node->next_node = new_node;
-}
 
+//新規ノードの初期化
+//List型変数のメモリ動的確保を行い、そのポインタを返す
 List* List_initialize_new_node() {
   List* node = (List*)malloc(sizeof(List));
   node->next_node = NULL;
@@ -15,7 +19,14 @@ List* List_initialize_new_node() {
   return node;
 }
 
-void  List_set_string_to_last_node(List* _list, char* _string) {
+//引数のリストの末尾に新規ノードを繋げる
+void List_add_new_node_to_last_of_list(List* _list) {
+  List* new_node = List_initialize_new_node();
+  List* last_node = List_get_last_node(_list);
+  last_node->next_node = new_node;
+}
+
+void List_set_string_to_last_node(List* _list, char* _string) {
   List* last_node = List_get_last_node(_list);
   strcpy(last_node->string, _string);
 }

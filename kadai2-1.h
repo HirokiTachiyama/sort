@@ -1,6 +1,6 @@
 
-#ifndef INC_2ND_TASK
-#define INC_2ND_TASK
+#ifndef INC_KADAI_2_1_H
+#define INC_KADAI_2_1_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,4 +11,4 @@
 #include "Sort.h"
 
 
-#endif
+#endif //INC_KADAI_2_1_H
