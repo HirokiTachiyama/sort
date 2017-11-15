@@ -22,12 +22,12 @@
 //新規ノードの初期化
 //List型変数のメモリ動的確保を行い、そのポインタを返す
 List* List_initialize_new_node() {
-  List* node = (List*)malloc(sizeof(List));
+    List* node = (List*)malloc(sizeof(List));
 
-  node->next_node = NULL;
-  node->string = (char*)malloc(sizeof(char) * NUM_CHARACTERS_OF_STRING + 1);
+    node->next_node = NULL;
+    node->string = (char*)malloc(sizeof(char) * NUM_CHARACTERS_OF_STRING + 1);
 
-  return node;
+    return node;
 }
 
 //引数のリストの末尾に新規ノードを繋げる
