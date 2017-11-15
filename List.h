@@ -15,8 +15,8 @@
 
 //リスト構造体
 typedef struct _List {
-  struct _List* next_node;
-  char* string;
+    struct _List* next_node;
+    char* string;
 } List;
 
 //リストAPI
