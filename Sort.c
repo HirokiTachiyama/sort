@@ -1,4 +1,8 @@
 
+/*
+ * Sort.c
+ */
+
 #include "Sort.h"
 #include "List.h"
 
@@ -7,6 +11,7 @@ int Sort_compare_strings(const void *a, const void *b) {
 	return strcmp((char*) a, (char*)b);
 }
 
+//文字列の配列をソート
 void Sort_sort(char _strings[][NUM_CHARACTERS_OF_STRING + 1], int _num_strings) {
   //stdlib.h ライブラリ関数 qsort
   //void qsort(void *base, size_t num, size_t size, int (*compare)(const void*, const void*))

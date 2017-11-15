@@ -1,14 +1,21 @@
 
+/*
+ * kadai12-1.c
+ * コンソールから入力された文字列をソートし、結果をファイルに出力するプログラム
+ * 
+ */
+
 #include "kadai2-1.h"
 
 int main(int argc, char* argv[]) {
-
   List* top_node;
   char tmp_string[NUM_CHARACTERS_OF_STRING + 1];
   int i;
   int input_times;
 	bool top_node_is_unused;
 	FILE* fp;
+
+	//出力ファイル名取得
 	if(argc == 1) {
 		fprintf(stderr, "ファイル名が入力されていません。\n");
 		exit(1);
@@ -20,6 +27,8 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
+
+	//コンソール入力の文字列取得、リストへの格納
   top_node = List_initialize_new_node();
   top_node_is_unused = true;
   input_times = 0;
@@ -36,7 +45,7 @@ int main(int argc, char* argv[]) {
 				//初回の文字列格納時はtop_nodeへ行うため、新規ノード追加は行わない
 					top_node_is_unused = false; //次回以降の格納時にはelse節を実行
 	  	} else {
-				List_add_new_node(top_node); //新規ノードの追加
+				List_add_new_node_to_last_of_list(top_node); //新規ノードの追加
 	  	}
 
 			//マルチバイト判定
@@ -68,24 +77,27 @@ int main(int argc, char* argv[]) {
 	 		List* last_node = List_get_last_node(top_node);
 	  	strcpy(last_node->string, tmp_string);
 		}
-  }
+  }//コンソールからの文字入力、リストへの格納のwhile 終了
 
+	//ソートの為に、リストから配列に文字列をコピー
   List* tmp_node = top_node;
   int num_strings = List_get_size(top_node);
-
 	char strings[num_strings][NUM_CHARACTERS_OF_STRING + 1];
   for(i = 0; i < num_strings; i++) {
 		strcpy(strings[i], tmp_node->string);
 		tmp_node = tmp_node->next_node;
   }
 
+	//文字列ソート
   Sort_sort(strings, num_strings);
 
+	//ファイル書き込み
 	for(i=0; i<num_strings; i++) {
 		fputs(strings[i], fp);
 		fputs("\n", fp);
 	}
 
+	//出力ファイルクローズ、メモリ解放
 	fclose(fp);
   List_free_all_nodes(top_node);
   return 0;
