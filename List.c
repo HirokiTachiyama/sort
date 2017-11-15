@@ -98,6 +98,3 @@ void List_print_all_strings(List* _list) {
   }
 
 }
-
-
-

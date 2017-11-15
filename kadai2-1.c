@@ -2,7 +2,6 @@
 /*
  * kadai12-1.c
  * コンソールから入力された文字列をソートし、結果をファイルに出力するプログラム
- * 
  */
 
 #include "kadai2-1.h"
@@ -41,24 +40,13 @@ int main(int argc, char* argv[]) {
 		  break;
 		} else { //入力有、リストへの入力文字の格納
 
+			//リストへのノード追加
 		  if(top_node_is_unused) {
 				//初回の文字列格納時はtop_nodeへ行うため、新規ノード追加は行わない
 					top_node_is_unused = false; //次回以降の格納時にはelse節を実行
 	  	} else {
 				List_add_new_node_to_last_of_list(top_node); //新規ノードの追加
 	  	}
-
-			//マルチバイト判定
-			i = 0;
-			while(tmp_string[i] != '\0') {				
-				if(tmp_string[i] & 0x80) {
-					fprintf(stderr, "半角英数字以外が入力されたため、プログラムを終了します。\n");
-					List_free_all_nodes(top_node);
-					fclose(fp);
-					exit(1);
-				}				
-				i++;
-			}
 
 			//改行文字の除去
 		  for(i = 0; i < NUM_CHARACTERS_OF_STRING; i++) {
@@ -67,6 +55,21 @@ int main(int argc, char* argv[]) {
 			  	break;
 				}
 	  	}
+
+			//半角英数字判定、入力文字列を一文字ずつ判定
+			//全角文字と半角記号を検知
+			i = 0;
+			while(tmp_string[i] != '\0') {
+
+				//全角文字(先頭bitが0x80) または 半角記号
+				if((tmp_string[i] & 0x80 ) || (!isalnum(tmp_string[i]))) {
+					fprintf(stderr, "半角英数字以外が入力されたため、プログラムを終了します。\n");
+					List_free_all_nodes(top_node);
+					fclose(fp);
+					exit(1);
+				}
+				i++;
+			}
 
 			//最大byteまで入力された場合、標準入力に残った'\n'を吐き出す
 		  if(strlen(tmp_string) == NUM_CHARACTERS_OF_STRING) {
